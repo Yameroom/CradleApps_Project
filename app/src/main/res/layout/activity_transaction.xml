@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Form Pengiriman Cradle"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"/>
+
+    <EditText
+        android:id="@+id/etNomorCradle"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Nomor Cradle"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginBottom="12dp"
+        android:paddingLeft="10dp"/>
+
+    <EditText
+        android:id="@+id/etPengirim"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Nama Pengirim"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginBottom="12dp"
+        android:paddingLeft="10dp"/>
+
+    <EditText
+        android:id="@+id/etTujuan"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Tujuan"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginBottom="24dp"
+        android:paddingLeft="10dp"/>
+
+    <Button
+        android:id="@+id/btnSimpan"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="SIMPAN KE DATABASE"
+        android:backgroundTint="#2196F3"/>
+</LinearLayout>
