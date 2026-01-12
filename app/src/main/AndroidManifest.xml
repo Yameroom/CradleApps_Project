@@ -36,6 +36,9 @@
         <activity
             android:name=".TransactionActivity"
             android:exported="false" />
+        <activity
+            android:name=".DetailReportActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

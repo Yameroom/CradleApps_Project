@@ -6,13 +6,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.*
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    // IP tetap gunakan yang sudah kamu catat (pastikan satu WiFi)
-    private val ipLaptop = "10.64.137.120"
+    // Sesuaikan IP dengan server/laptop Abang
+    private val ipLaptop = "192.168.0.116"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private fun prosesLogin(user: String, pass: String) {
         val client = OkHttpClient()
 
-        // Membuat data form POST
+        // Kirim data login via POST
         val formBody = FormBody.Builder()
             .add("username", user)
             .add("password", pass)
@@ -51,28 +53,43 @@ class MainActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@MainActivity, "Gagal konek: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, "Gagal konek server", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
-                // Menggunakan .use agar response body otomatis ditutup
                 response.body()?.use { body ->
                     val responseData = body.string()
 
                     runOnUiThread {
-                        if (response.isSuccessful && responseData.contains("success")) {
-                            Toast.makeText(this@MainActivity, "Login Berhasil!", Toast.LENGTH_SHORT).show()
+                        try {
+                            // 1. Parse JSON dari PHP menggunakan Gson
+                            val jsonObject = Gson().fromJson(responseData, JsonObject::class.java)
+                            val status = jsonObject.get("status").asString
 
-                            // PERBAIKAN: Baris di bawah ini sekarang sudah AKTIF (tidak di-comment lagi)
-                            val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                            if (status == "success") {
+                                // 2. Ambil "nama_lengkap" dari database melalui JSON
+                                val namaAsli = if (jsonObject.has("nama_lengkap")) {
+                                    jsonObject.get("nama_lengkap").asString
+                                } else {
+                                    "Admin"
+                                }
 
-                            // Tutup activity login agar tidak bisa "back" lagi ke sini
-                            finish()
-                        } else {
-                            Toast.makeText(this@MainActivity, "Username atau Password Salah", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@MainActivity, "Login Berhasil!", Toast.LENGTH_SHORT).show()
+
+                                // 3. Kirim NAMA ASLI ke HomeActivity
+                                val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                                intent.putExtra("USER_NAME", namaAsli)
+                                startActivity(intent)
+
+                                // Tutup halaman login
+                                finish()
+                            } else {
+                                val message = jsonObject.get("message").asString
+                                Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+                            }
+                        } catch (e: Exception) {
+                            Toast.makeText(this@MainActivity, "Error data: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

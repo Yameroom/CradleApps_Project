@@ -1,26 +1,139 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:fillViewport="true"
+    android:background="#FFFFFF">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Data Cradle"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
-
-    <EditText android:id="@+id/etEditNomor" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nomor Cradle"/>
-    <EditText android:id="@+id/etEditPengirim" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nama Pengirim" android:layout_marginTop="10dp"/>
-    <EditText android:id="@+id/etEditTujuan" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Tujuan" android:layout_marginTop="10dp"/>
-
-    <Button
-        android:id="@+id/btnSimpanEdit"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update Data"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#4CAF50"/>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="#FFFFFF">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/banner_edit"
+                android:padding="20dp"/>
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_revert"
+                app:tint="#0066FF" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:background="@drawable/bg_content_home"
+            android:layout_marginTop="-20dp">
+
+            <TextView
+                android:id="@+id/tvPageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update Data Cradle"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="@font/chirp_bold"
+                android:layout_marginBottom="24dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor Cradle"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginBottom="4dp"/>
+            <EditText
+                android:id="@+id/etEditNomor"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="Contoh: CRD-001"
+                android:padding="12dp"
+                android:background="@drawable/bg_input_field"
+                android:fontFamily="@font/chirp_regular"
+                android:textSize="15sp"
+                android:layout_marginBottom="16dp"
+                android:inputType="textCapCharacters"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Pengirim"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginBottom="4dp"/>
+            <EditText
+                android:id="@+id/etEditPengirim"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="Masukkan nama pengirim"
+                android:padding="12dp"
+                android:background="@drawable/bg_input_field"
+                android:fontFamily="@font/chirp_regular"
+                android:textSize="15sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tujuan Pengiriman"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginBottom="4dp"/>
+            <EditText
+                android:id="@+id/etEditTujuan"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="Lokasi tujuan"
+                android:padding="12dp"
+                android:background="@drawable/bg_input_field"
+                android:fontFamily="@font/chirp_regular"
+                android:textSize="15sp"
+                android:layout_marginBottom="32dp"/>
+
+            <Button
+                android:id="@+id/btnSimpanEdit"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Update Information"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="#0066FF"
+                app:cornerRadius="16dp"
+                android:elevation="0dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cradle App • Secure Database Link"
+                android:textSize="10sp"
+                android:textColor="#CCCCCC"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
