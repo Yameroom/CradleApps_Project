@@ -16,6 +16,12 @@
         android:theme="@style/Theme.CradleApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".EditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DataListActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity

@@ -2,12 +2,7 @@ package com.example.cradleapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import okhttp3.*
-import java.io.IOException
 import androidx.cardview.widget.CardView
 
 class HomeActivity : AppCompatActivity() {
@@ -15,10 +10,19 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val cardTransaksi = findViewById<CardView>(R.id.cardTransaksi)
+        // Pastikan ID ini sama dengan yang ada di XML kamu
+        val cardInput = findViewById<CardView>(R.id.cardTransaksi)
+        val cardList = findViewById<CardView>(R.id.cardViewData)
 
-        cardTransaksi.setOnClickListener {
+        // Klik untuk ke halaman Input
+        cardInput.setOnClickListener {
             val intent = Intent(this, TransactionActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Klik untuk ke halaman List (Point 2)
+        cardList.setOnClickListener {
+            val intent = Intent(this, DataListActivity::class.java)
             startActivity(intent)
         }
     }
