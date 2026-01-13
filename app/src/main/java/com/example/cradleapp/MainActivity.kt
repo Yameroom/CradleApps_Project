@@ -13,8 +13,8 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    // Sesuaikan IP dengan server/laptop Abang
-    private val ipLaptop = "192.168.0.116"
+
+    private val ipLaptop = "10.64.137.120"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

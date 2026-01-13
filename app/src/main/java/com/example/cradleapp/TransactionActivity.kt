@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 
 class TransactionActivity : AppCompatActivity() {
 
-    private val ipLaptop = "192.168.0.116"
+    private val ipLaptop = "10.64.137.120"
 
     private lateinit var spinCustomer: Spinner
     private lateinit var spinCradle: Spinner
