@@ -55,35 +55,46 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nomor Cradle"
+                android:text="Customer"
                 android:textSize="12sp"
                 android:textColor="#888888"
                 android:layout_marginBottom="4dp"/>
-            <EditText
-                android:id="@+id/etEditNomor"
+            <Spinner
+                android:id="@+id/spinEditCustomer"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:hint="Contoh: CRD-001"
-                android:padding="12dp"
                 android:background="@drawable/bg_input_field"
-                android:fontFamily="@font/chirp_regular"
-                android:textSize="15sp"
-                android:layout_marginBottom="16dp"
-                android:inputType="textCapCharacters"/>
+                android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama Pengirim"
+                android:text="Nomor Cradle / Trailer"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginBottom="4dp"/>
+            <Spinner
+                android:id="@+id/spinEditCradle"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/bg_input_field"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Kirim"
                 android:textSize="12sp"
                 android:textColor="#888888"
                 android:layout_marginBottom="4dp"/>
             <EditText
-                android:id="@+id/etEditPengirim"
+                android:id="@+id/etEditTglKirim"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:hint="Masukkan nama pengirim"
+                android:hint="Pilih Tanggal Kirim"
                 android:padding="12dp"
+                android:focusable="false"
+                android:clickable="true"
                 android:background="@drawable/bg_input_field"
                 android:fontFamily="@font/chirp_regular"
                 android:textSize="15sp"
@@ -92,18 +103,56 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tujuan Pengiriman"
+                android:text="Tanggal Ambil"
                 android:textSize="12sp"
                 android:textColor="#888888"
                 android:layout_marginBottom="4dp"/>
             <EditText
-                android:id="@+id/etEditTujuan"
+                android:id="@+id/etEditTglAmbil"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:hint="Lokasi tujuan"
+                android:hint="Pilih Tanggal Ambil"
                 android:padding="12dp"
+                android:focusable="false"
+                android:clickable="true"
                 android:background="@drawable/bg_input_field"
                 android:fontFamily="@font/chirp_regular"
+                android:textSize="15sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pressure Kirim (Bar)"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginBottom="4dp"/>
+            <EditText
+                android:id="@+id/etEditPAwal"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="Contoh: 200"
+                android:padding="12dp"
+                android:background="@drawable/bg_input_field"
+                android:inputType="numberDecimal"
+                android:textSize="15sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pressure Ambil (Bar)"
+                android:textSize="12sp"
+                android:textColor="#888888"
+                android:layout_marginBottom="4dp"/>
+            <EditText
+                android:id="@+id/etEditPAkhir"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="Contoh: 20"
+                android:padding="12dp"
+                android:background="@drawable/bg_input_field"
+                android:inputType="numberDecimal"
                 android:textSize="15sp"
                 android:layout_marginBottom="32dp"/>
 
@@ -111,7 +160,7 @@
                 android:id="@+id/btnSimpanEdit"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:text="Update Information"
+                android:text="Update Transaction Information"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -119,15 +168,10 @@
                 app:cornerRadius="16dp"
                 android:elevation="0dp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cradle App • Secure Database Link"
+                android:text="Updating data will trigger recalculation of AGA8 parameters"
                 android:textSize="10sp"
                 android:textColor="#CCCCCC"
                 android:gravity="center"

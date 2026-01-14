@@ -42,6 +42,8 @@
         <activity
             android:name=".CalculatorActivity"
             android:exported="false" />
+        <activity android:name=".HistoryCalcActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

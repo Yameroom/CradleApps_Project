@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="#F4F7F9">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#FFFFFF">
+        android:layout_height="240dp"
+        android:background="@android:color/transparent">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -21,7 +21,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#80000000" />
+                android:background="#66000000" />
             <ImageButton
                 android:id="@+id/btnBackDetail"
                 android:layout_width="48dp"
@@ -30,106 +30,201 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_revert"
                 app:tint="#FFFFFF" />
-            <TextView
-                android:id="@+id/tvDetailCradleName"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_margin="24dp"
-                android:text="Cradle Name"
-                android:textColor="#FFFFFF"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvDetailCradleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32sp"
+                    android:fontFamily="@font/chirp_bold" />
+                <TextView
+                    android:id="@+id/tvDetailCustomer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading data..."
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/chirp_regular" />
+            </LinearLayout>
         </FrameLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="-40dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="40dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#0066FF">
+                app:cardCornerRadius="24dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#FFFFFF">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp"
-                    android:gravity="center">
+                    android:padding="24dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="REVENUE IDR"
-                        android:textColor="#CCFFFFFF"
-                        android:textSize="12sp" />
+                        android:text="Transaction Date"
+                        android:textColor="#757575"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/chirp_regular"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="#F8F9FA"
+                        android:gravity="center_vertical"
+                        android:padding="16dp">
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_menu_today"
+                            app:tint="#424242"/>
+                        <TextView
+                            android:id="@+id/tvResTanggal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:text="-"
+                            android:textColor="#212121"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/chirp_bold" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp">
+
+                        <LinearLayout
+                            android:id="@+id/llKirim"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Departure" android:textSize="13sp" android:textColor="#757575"/>
+                            <TextView android:id="@+id/tvResPKirim" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="36sp" android:textColor="#000" android:fontFamily="@font/chirp_bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BAR (KIRIM)" android:textSize="12sp" android:textColor="#424242" android:fontFamily="@font/chirp_bold"/>
+
+                            <TextView android:id="@+id/tvResSM3Kirim" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.00 M³" android:textSize="15sp" android:textColor="#0066FF" android:layout_marginTop="8dp" android:fontFamily="@font/chirp_bold"/>
+                            <TextView android:id="@+id/tvResTAwal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Temp: 0°C" android:textSize="13sp" android:textColor="#424242" android:layout_marginTop="2dp"/>
+                            <TextView android:id="@+id/tvResFpvKirim" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fpv: 0.0000" android:textSize="12sp" android:textColor="#757575" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView android:id="@+id/tvResSM3Total" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.00 M³" android:textSize="14sp" android:textColor="#0066FF" android:fontFamily="@font/chirp_bold"/>
+                            <ImageView android:layout_width="90dp" android:layout_height="18dp" android:src="@drawable/ic_flight_line_minimalist" android:alpha="0.5"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Net Volume" android:textSize="11sp" android:textColor="#757575"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:gravity="end"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Arrival" android:textSize="13sp" android:textColor="#757575"/>
+                            <TextView android:id="@+id/tvResPAmbil" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="36sp" android:textColor="#000" android:fontFamily="@font/chirp_bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BAR (AMBIL)" android:textSize="12sp" android:textColor="#424242" android:fontFamily="@font/chirp_bold"/>
+
+                            <TextView android:id="@+id/tvResSM3Ambil" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.00 M³" android:textSize="15sp" android:textColor="#0066FF" android:layout_marginTop="8dp" android:fontFamily="@font/chirp_bold"/>
+                            <TextView android:id="@+id/tvResTAkhir" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Temp: 0°C" android:textSize="13sp" android:textColor="#424242" android:layout_marginTop="2dp"/>
+                            <TextView android:id="@+id/tvResFpvAmbil" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fpv: 0.0000" android:textSize="12sp" android:textColor="#757575" android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" android:layout_marginVertical="28dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Base Price / M³" android:textSize="13sp" android:textColor="#757575"/>
+                            <TextView android:id="@+id/tvResHarga" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rp 0" android:textSize="16sp" android:textColor="#212121" android:fontFamily="@font/chirp_bold"/>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="end" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Revenue" android:textSize="13sp" android:textColor="#757575"/>
+                            <TextView android:id="@+id/tvResRevenue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Rp 0" android:textSize="24sp" android:textColor="#0066FF" android:fontFamily="@font/chirp_bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1.5dp" android:background="#F5F5F5" android:layout_marginTop="28dp"/>
+
                     <TextView
-                        android:id="@+id/tvResRevenue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rp 0,00"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:text="AGA8 Analysis Details"
+                        android:textColor="#616161"
+                        android:textSize="13sp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/chirp_bold"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:chipSpacingVertical="10dp"
+                        app:chipSpacingHorizontal="10dp">
+
+                        <TextView android:id="@+id/chipCO2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_tag_gray" android:paddingHorizontal="16dp" android:paddingVertical="10dp" android:text="CO2: 0%" android:textSize="13sp" android:textColor="#212121" android:fontFamily="@font/chirp_bold" />
+                        <TextView android:id="@+id/chipN2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_tag_gray" android:paddingHorizontal="16dp" android:paddingVertical="10dp" android:text="N2: 0%" android:textSize="13sp" android:textColor="#212121" android:fontFamily="@font/chirp_bold" />
+                        <TextView android:id="@+id/chipSG" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_tag_gray" android:paddingHorizontal="16dp" android:paddingVertical="10dp" android:text="SG: 0.0000" android:textSize="13sp" android:textColor="#212121" android:fontFamily="@font/chirp_bold" />
+                        <TextView android:id="@+id/chipFpvTotal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_tag_gray" android:paddingHorizontal="16dp" android:paddingVertical="10dp" android:text="Fpv Total: 0.00" android:textSize="13sp" android:textColor="#212121" android:fontFamily="@font/chirp_bold"/>
+
+                    </com.google.android.material.chip.ChipGroup>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AGA8 Analysis Details"
-                android:textStyle="bold"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEditAction"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp"
-                android:textColor="#333333"/>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridPKirim"/>
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridPAmbil"/>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridSM3Kirim"/>
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridSM3Ambil"/>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridFpvTotal"/>
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridSM3Total"/>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridTAwal"/>
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridTAkhir"/>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridCO2"/>
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridN2"/>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridSG"/>
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridHarga"/>
-            </LinearLayout>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="10dp">
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridCustomer"/>
-                <include layout="@layout/item_detail_grid" android:id="@+id/gridTanggal"/>
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="40dp"/>
+                android:text="Edit Transaction Information"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:fontFamily="@font/chirp_bold"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#0066FF"
+                app:cornerRadius="16dp"
+                app:elevation="4dp"
+                app:icon="@android:drawable/ic_menu_edit"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"
+                app:iconTint="#FFFFFF"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -13,11 +13,23 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-
-    private val ipLaptop = "10.64.137.120"
+    // API Ngrok Server Domain
+    private val urlServer = "https://estimable-subfulgently-margarete.ngrok-free.dev"
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sessionManager = SessionManager(this)
+
+        // Session user checker
+        if (sessionManager.isLoggedIn()) {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
+
         setContentView(R.layout.activity_main)
 
         val etUsername = findViewById<EditText>(R.id.etUsername)
@@ -29,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             val pass = etPassword.text.toString().trim()
 
             if (user.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Isi username dan password!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Yeah who need password anyways :)", Toast.LENGTH_SHORT).show()
             } else {
                 prosesLogin(user, pass)
             }
@@ -39,21 +51,21 @@ class MainActivity : AppCompatActivity() {
     private fun prosesLogin(user: String, pass: String) {
         val client = OkHttpClient()
 
-        // Kirim data login via POST
         val formBody = FormBody.Builder()
             .add("username", user)
             .add("password", pass)
             .build()
 
         val request = Request.Builder()
-            .url("http://$ipLaptop/cradle_api/login.php")
+            .url("$urlServer/cradle_api/login.php")
             .post(formBody)
+            .addHeader("ngrok-skip-browser-warning", "true") // <--- Bypass Ngrok Interstitial
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
-                    Toast.makeText(this@MainActivity, "Gagal konek server", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Failed Connection to Server", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -63,33 +75,33 @@ class MainActivity : AppCompatActivity() {
 
                     runOnUiThread {
                         try {
-                            // 1. Parse JSON dari PHP menggunakan Gson
                             val jsonObject = Gson().fromJson(responseData, JsonObject::class.java)
                             val status = jsonObject.get("status").asString
 
                             if (status == "success") {
-                                // 2. Ambil "nama_lengkap" dari database melalui JSON
-                                val namaAsli = if (jsonObject.has("nama_lengkap")) {
-                                    jsonObject.get("nama_lengkap").asString
+                                val dataObj = jsonObject.getAsJsonObject("data")
+
+                                val namaAsli = if (dataObj.has("nama")) {
+                                    dataObj.get("nama").asString
                                 } else {
-                                    "Admin"
+                                    user
                                 }
 
-                                Toast.makeText(this@MainActivity, "Login Berhasil!", Toast.LENGTH_SHORT).show()
+                                // Simpan ke SessionManager
+                                sessionManager.saveLoginStatus(true, namaAsli)
 
-                                // 3. Kirim NAMA ASLI ke HomeActivity
+                                Toast.makeText(this@MainActivity, "Welcome Back, $namaAsli", Toast.LENGTH_SHORT).show()
+
                                 val intent = Intent(this@MainActivity, HomeActivity::class.java)
-                                intent.putExtra("USER_NAME", namaAsli)
                                 startActivity(intent)
-
-                                // Tutup halaman login
                                 finish()
                             } else {
                                 val message = jsonObject.get("message").asString
                                 Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
                             }
                         } catch (e: Exception) {
-                            Toast.makeText(this@MainActivity, "Error data: ${e.message}", Toast.LENGTH_SHORT).show()
+
+                            Toast.makeText(this@MainActivity, "Error Response: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

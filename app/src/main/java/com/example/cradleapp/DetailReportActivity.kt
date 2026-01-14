@@ -1,89 +1,164 @@
 package com.example.cradleapp
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import okhttp3.*
+import java.io.IOException
 import java.text.NumberFormat
 import java.util.*
 
 class DetailReportActivity : AppCompatActivity() {
 
+    private val urlServer = "https://estimable-subfulgently-margarete.ngrok-free.dev"
+    private var idTrx: String? = null
+
+    private var currentPKirim: Double = 0.0
+    private var currentPAmbil: Double = 0.0
+    private var currentCustomer: String = ""
+    private var currentCradle: String = ""
+    private var currentTanggal: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_report)
 
-        // 1. Inisialisasi Tombol Back
-        val btnBack = findViewById<ImageButton>(R.id.btnBackDetail)
-        btnBack.setOnClickListener { finish() }
+        idTrx = intent.getStringExtra("ID_TRANSAKSI")
 
-        // 2. Ambil data dari Intent (Pastikan KEY sama dengan yang di kirim dari ReportAdapter)
-        val cradleName = intent.getStringExtra("CRADLE_NAME") ?: "-"
-        val customer = intent.getStringExtra("CUSTOMER_NAME") ?: "-"
-        val tanggal = intent.getStringExtra("TANGGAL") ?: "-"
-        val revenue = intent.getDoubleExtra("REVENUE", 0.0)
+        findViewById<ImageButton>(R.id.btnBackDetail).setOnClickListener { finish() }
 
-        // Data Teknis Utama
-        val pKirim = intent.getDoubleExtra("P_KIRIM", 0.0)
-        val pAmbil = intent.getDoubleExtra("P_AMBIL", 0.0)
-        val sm3Kirim = intent.getDoubleExtra("SM3_KIRIM", 0.0)
-        val sm3Ambil = intent.getDoubleExtra("SM3_AMBIL", 0.0)
-        val fpvTotal = intent.getDoubleExtra("FPV_TOTAL", 0.0)
-        val sm3Total = intent.getDoubleExtra("SM3_TOTAL", 0.0)
+        displayDataFromIntent()
 
-        // Parameter AGA8 Tambahan dari Stored Procedure
-        val tAwal = intent.getDoubleExtra("T_AWAL", 32.0)
-        val tAkhir = intent.getDoubleExtra("T_AKHIR", 27.0)
-        val co2 = intent.getDoubleExtra("CO2", 0.8477)
-        val n2 = intent.getDoubleExtra("N2", 0.7632)
-        val sg = intent.getDoubleExtra("SG", 0.5841)
-        val harga = intent.getDoubleExtra("HARGA", 0.0)
-
-        // 3. Pasang data ke UI Header
-        findViewById<TextView>(R.id.tvDetailCradleName).text = cradleName
-
-        // Format Revenue ke Rupiah
-        val localeID = Locale("in", "ID")
-        val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
-        findViewById<TextView>(R.id.tvResRevenue).text = formatRupiah.format(revenue)
-
-        // 4. Pasang ke Grid menggunakan Fungsi Helper (Total 14 Parameter)
-
-        // Baris 1: Pressure
-        setupGridValue(R.id.gridPKirim, "Pressure Kirim", "$pKirim Bar")
-        setupGridValue(R.id.gridPAmbil, "Pressure Ambil", "$pAmbil Bar")
-
-        // Baris 2: SM3 Individu
-        setupGridValue(R.id.gridSM3Kirim, "SM3 Kirim", String.format("%.2f m3", sm3Kirim))
-        setupGridValue(R.id.gridSM3Ambil, "SM3 Ambil", String.format("%.2f m3", sm3Ambil))
-
-        // Baris 3: Fpv & Total SM3
-        setupGridValue(R.id.gridFpvTotal, "Fpv Total", String.format("%.4f", fpvTotal))
-        setupGridValue(R.id.gridSM3Total, "Net SM3 Total", String.format("%.2f m3", sm3Total))
-
-        // Baris 4: Suhu (T Awal & T Akhir)
-        setupGridValue(R.id.gridTAwal, "Temp Awal", "$tAwal °C")
-        setupGridValue(R.id.gridTAkhir, "Temp Akhir", "$tAkhir °C")
-
-        // Baris 5: Gas Content (CO2 & N2)
-        setupGridValue(R.id.gridCO2, "CO2 Content", "$co2 %")
-        setupGridValue(R.id.gridN2, "N2 Content", "$n2 %")
-
-        // Baris 6: SG & Harga
-        setupGridValue(R.id.gridSG, "Spec. Gravity", "$sg")
-        setupGridValue(R.id.gridHarga, "Harga/m3", formatRupiah.format(harga))
-
-        // Baris 7: Info Customer & Waktu
-        setupGridValue(R.id.gridCustomer, "Customer", customer)
-        setupGridValue(R.id.gridTanggal, "Tanggal Ambil", tanggal)
+        findViewById<MaterialButton>(R.id.btnEditAction).setOnClickListener {
+            val intentEdit = Intent(this, EditActivity::class.java)
+            intentEdit.putExtra("ID_TRANSAKSI", idTrx)
+            intentEdit.putExtra("CUSTOMER_NAME", currentCustomer)
+            intentEdit.putExtra("CRADLE_NAME", currentCradle)
+            intentEdit.putExtra("TANGGAL_KIRIM", currentTanggal)
+            intentEdit.putExtra("TANGGAL_AMBIL", currentTanggal)
+            intentEdit.putExtra("P_KIRIM", currentPKirim)
+            intentEdit.putExtra("P_AMBIL", currentPAmbil)
+            startActivity(intentEdit)
+        }
     }
 
-    private fun setupGridValue(viewId: Int, label: String, value: String) {
-        val view = findViewById<View>(viewId)
-        // Jika baris bawah ini merah, pastikan di item_detail_grid.xml ID-nya benar
-        // Gunakan ID tvGridLabel dan tvGridValue sesuai kode Abang sebelumnya
-        view.findViewById<TextView>(R.id.tvGridLabel).text = label
-        view.findViewById<TextView>(R.id.tvGridValue).text = value
+    override fun onResume() {
+        super.onResume()
+        if (!idTrx.isNullOrEmpty()) {
+            refreshDataFromServer(idTrx!!)
+        }
+    }
+
+    private fun refreshDataFromServer(id: String) {
+        val client = OkHttpClient()
+        val url = "$urlServer/cradle_api/get_report.php?id=$id"
+
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("ngrok-skip-browser-warning", "true")
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("SERVER_ERROR", "Server failed to load: ${e.message}")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.body()?.use { body ->
+                    val json = body.string()
+                    try {
+                        val jsonObject = Gson().fromJson(json, JsonObject::class.java)
+                        if (jsonObject.get("status").asString == "success") {
+                            val dataArray = jsonObject.getAsJsonArray("data")
+                            if (dataArray.size() > 0) {
+                                val data = dataArray[0].asJsonObject
+                                runOnUiThread { updateUI(data) }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e("PARSING_ERROR", "JSON parsing failed: ${e.message}")
+                    }
+                }
+            }
+        })
+    }
+
+    private fun updateUI(data: JsonObject) {
+        try {
+            val localeID = Locale("in", "ID")
+            val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+
+            // --- HELPER UNTUK MENANGANI ANGKA .11 MENJADI 0.11 DAN STRING "32.0" ---
+            fun getSafeDbl(key: String): Double {
+                if (!data.has(key) || data.get(key).isJsonNull) return 0.0
+                val valueStr = data.get(key).asString
+                return try {
+                    // Menambal angka yang diawali titik agar bisa diproses asDouble
+                    val cleanedValue = if (valueStr.startsWith(".")) "0$valueStr" else valueStr
+                    cleanedValue.toDouble()
+                } catch (e: Exception) { 0.0 }
+            }
+
+            fun getSafeStr(key: String): String = if (data.has(key) && !data.get(key).isJsonNull) data.get(key).asString else "-"
+
+            // 1. Update variabel lokal
+            currentCustomer = getSafeStr("Customer")
+            currentCradle = getSafeStr("Cradle")
+            currentTanggal = getSafeStr("Tanggal")
+            currentPKirim = getSafeDbl("P_Kirim")
+            currentPAmbil = getSafeDbl("P_Ambil")
+
+            // 2. Update Header
+            findViewById<TextView>(R.id.tvDetailCradleName).text = currentCradle
+            findViewById<TextView>(R.id.tvDetailCustomer).text = currentCustomer
+            findViewById<TextView>(R.id.tvResTanggal).text = currentTanggal
+
+            // 3. Update Tekanan
+            findViewById<TextView>(R.id.tvResPKirim).text = currentPKirim.toInt().toString()
+            findViewById<TextView>(R.id.tvResPAmbil).text = currentPAmbil.toInt().toString()
+
+            // 4. Update Volume & Revenue (Menangani format .11)
+            findViewById<TextView>(R.id.tvResSM3Kirim).text = String.format("%.2f M³", getSafeDbl("SM3_Kirim"))
+            findViewById<TextView>(R.id.tvResSM3Ambil).text = String.format("%.2f M³", getSafeDbl("SM3_Ambil"))
+            findViewById<TextView>(R.id.tvResSM3Total).text = String.format("%.2f M³", getSafeDbl("Nilai_SM3_Total"))
+            findViewById<TextView>(R.id.tvResRevenue).text = formatRupiah.format(getSafeDbl("Revenue_IDR"))
+            findViewById<TextView>(R.id.tvResHarga).text = formatRupiah.format(getSafeDbl("Harga"))
+
+            // 5. Update AGA8 Chips
+            findViewById<TextView>(R.id.chipCO2).text = String.format("CO2: %.2f%%", getSafeDbl("CO2"))
+            findViewById<TextView>(R.id.chipN2).text = String.format("N2: %.2f%%", getSafeDbl("N2"))
+            findViewById<TextView>(R.id.chipSG).text = String.format("SG: %.4f", getSafeDbl("SG"))
+            findViewById<TextView>(R.id.chipFpvTotal).text = String.format("Fpv Total: %.4f", getSafeDbl("Fpv_Total"))
+
+            // 6. Update Detail Teknis (Menangani string "32.0" ke Int)
+            findViewById<TextView>(R.id.tvResTAwal).text = "Temp: ${getSafeDbl("T_Awal").toInt()}°C"
+            findViewById<TextView>(R.id.tvResTAkhir).text = "Temp: ${getSafeDbl("T_Akhir").toInt()}°C"
+            findViewById<TextView>(R.id.tvResFpvKirim).text = String.format("Fpv: %.4f", getSafeDbl("Fpv_Kirim"))
+            findViewById<TextView>(R.id.tvResFpvAmbil).text = String.format("Fpv: %.4f", getSafeDbl("Fpv_Ambil"))
+
+        } catch (e: Exception) {
+            Log.e("UPDATE_UI_ERROR", "Error: ${e.message}")
+        }
+    }
+
+    private fun displayDataFromIntent() {
+        currentCustomer = intent.getStringExtra("CUSTOMER_NAME") ?: "-"
+        currentCradle = intent.getStringExtra("CRADLE_NAME") ?: "-"
+        currentTanggal = intent.getStringExtra("TANGGAL") ?: "-"
+        currentPKirim = intent.getDoubleExtra("P_KIRIM", 0.0)
+        currentPAmbil = intent.getDoubleExtra("P_AMBIL", 0.0)
+
+        findViewById<TextView>(R.id.tvDetailCradleName).text = currentCradle
+        findViewById<TextView>(R.id.tvDetailCustomer).text = currentCustomer
+        findViewById<TextView>(R.id.tvResTanggal).text = currentTanggal
+        findViewById<TextView>(R.id.tvResPKirim).text = currentPKirim.toInt().toString()
+        findViewById<TextView>(R.id.tvResPAmbil).text = currentPAmbil.toInt().toString()
+        findViewById<TextView>(R.id.tvResSM3Total).text = String.format("%.2f M³", intent.getDoubleExtra("SM3_TOTAL", 0.0))
     }
 }

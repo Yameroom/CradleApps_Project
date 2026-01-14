@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0066FF"
+            android:padding="12dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvHistDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="13 Jan 2026, 09:51"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvHistResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.36 M³"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pressure" android:textSize="10sp" android:textColor="#888"/>
+                    <TextView android:id="@+id/tvHistPress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="200 Bar" android:textColor="#333" android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Temp" android:textSize="10sp" android:textColor="#888"/>
+                    <TextView android:id="@+id/tvHistTemp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="32 °C" android:textColor="#333" android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tube" android:textSize="10sp" android:textColor="#888"/>
+                    <TextView android:id="@+id/tvHistTube" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10 L" android:textColor="#333" android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginBottom="12dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CO2 (%)" android:textSize="10sp" android:textColor="#888"/>
+                    <TextView android:id="@+id/tvHistCO2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.84" android:textColor="#333" android:textSize="12sp"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="N2 (%)" android:textSize="10sp" android:textColor="#888"/>
+                    <TextView android:id="@+id/tvHistN2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.76" android:textColor="#333" android:textSize="12sp"/>
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="S. Gravity" android:textSize="10sp" android:textColor="#888"/>
+                    <TextView android:id="@+id/tvHistSG" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0.58" android:textColor="#333" android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F9F9F9"
+                android:padding="8dp"
+                android:orientation="horizontal">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="FPV: " android:textSize="11sp" android:textColor="#555"/>
+                <TextView android:id="@+id/tvHistFPV" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1.1008" android:textSize="11sp" android:textColor="#333" android:layout_marginEnd="16dp"/>
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="FPV²: " android:textSize="11sp" android:textColor="#555"/>
+                <TextView android:id="@+id/tvHistFPV2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1.2119" android:textSize="11sp" android:textColor="#333"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,5 +1,6 @@
 package com.example.cradleapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -22,17 +23,18 @@ class CalculatorActivity : AppCompatActivity() {
     private lateinit var etCO2: EditText
     private lateinit var etN2: EditText
     private lateinit var btnCalculate: Button
+    private lateinit var btnHistory: Button
     private lateinit var tvResultSM3: TextView
     private lateinit var btnBack: ImageButton
 
-    // Gunakan IP yang sama dengan HomeActivity
-    private val ipLaptop = "10.64.137.120"
+    // API Menggunakan Ngrok Cihuy
+    private val urlServer = "https://estimable-subfulgently-margarete.ngrok-free.dev"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
 
-        // 1. Inisialisasi View
+        // Inisialisasi View page
         etTemp = findViewById(R.id.etCalcTemp)
         etPress = findViewById(R.id.etCalcPress)
         etLwc = findViewById(R.id.etCalcLwc)
@@ -40,38 +42,53 @@ class CalculatorActivity : AppCompatActivity() {
         etCO2 = findViewById(R.id.etCalcCO2)
         etN2 = findViewById(R.id.etCalcN2)
         btnCalculate = findViewById(R.id.btnCalculate)
+        btnHistory = findViewById(R.id.btnHistory)
         tvResultSM3 = findViewById(R.id.tvResultSM3)
         btnBack = findViewById(R.id.btnBackCalc)
 
-        // 2. Klik Tombol Kembali
-        btnBack.setOnClickListener {
-            finish()
-        }
+        btnBack.setOnClickListener { finish() }
 
-        // 3. Klik Tombol Hitung
-        btnCalculate.setOnClickListener {
-            prosesHitung()
+        btnCalculate.setOnClickListener { prosesHitung() }
+
+        btnHistory.setOnClickListener {
+            val intent = Intent(this, HistoryCalcActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun prosesHitung() {
-        val username = intent.getStringExtra("USER_NAME") ?: "Admin"
+        val session = SessionManager(this)
+        val username = session.getUsername() ?: "Admin"
+
+        val temp = etTemp.text.toString().trim().replace(",", ".")
+        val pressure = etPress.text.toString().trim().replace(",", ".")
+        val lwc = etLwc.text.toString().trim().replace(",", ".")
+        val sg = etSG.text.toString().trim().replace(",", ".")
+        val co2 = etCO2.text.toString().trim().replace(",", ".")
+        val n2 = etN2.text.toString().trim().replace(",", ".")
+
+        if (temp.isEmpty() || pressure.isEmpty() || lwc.isEmpty()) {
+            Toast.makeText(this, "Fill it, or I will make you bald", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val client = OkHttpClient()
 
-        // Ambil data dari semua EditText
         val formBody = FormBody.Builder()
             .add("username", username)
-            .add("temp", etTemp.text.toString())
-            .add("pressure", etPress.text.toString())
-            .add("lwc", etLwc.text.toString())
-            .add("sg", etSG.text.toString())
-            .add("co2", etCO2.text.toString())
-            .add("n2", etN2.text.toString())
+            .add("temp", temp)
+            .add("pressure", pressure)
+            .add("lwc", lwc)
+            .add("sg", sg)
+            .add("co2", co2)
+            .add("n2", n2)
             .build()
 
+        //URL Ngrok dan Header Skip Warning
         val request = Request.Builder()
-            .url("http://$ipLaptop/cradle_api/proses_kalkulator.php")
+            .url("$urlServer/cradle_api/proses_kalkulator.php")
             .post(formBody)
+            .addHeader("ngrok-skip-browser-warning", "true") // <--- Bypass Ngrok Warning
             .build()
 
         btnCalculate.isEnabled = false
@@ -81,8 +98,8 @@ class CalculatorActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
                     btnCalculate.isEnabled = true
-                    btnCalculate.text = "PROCESS CALCULATION"
-                    Toast.makeText(this@CalculatorActivity, "Gagal konek server", Toast.LENGTH_SHORT).show()
+                    btnCalculate.text = "PROCESS"
+                    Toast.makeText(this@CalculatorActivity, "Server is offline/trouble", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -91,29 +108,26 @@ class CalculatorActivity : AppCompatActivity() {
                     val responseData = body.string()
                     runOnUiThread {
                         btnCalculate.isEnabled = true
-                        btnCalculate.text = "PROCESS CALCULATION"
+                        btnCalculate.text = "PROCESS"
 
                         try {
                             val jsonObject = Gson().fromJson(responseData, JsonObject::class.java)
                             if (jsonObject.get("status").asString == "success") {
                                 val resultData = jsonObject.getAsJsonObject("data")
 
-                                // PERBAIKAN: Ambil sebagai Double untuk formatting
+                                // Format hasil agar rapi 2 angka belakang koma
                                 val hasilSm3Raw = resultData.get("hasil_sm3").asDouble
-
-                                // Format agar muncul 0.22 (memaksa leading zero dan 2 desimal)
                                 val hasilFormatted = String.format(Locale.US, "%.2f", hasilSm3Raw)
 
-                                // Tampilkan ke layar
-                                tvResultSM3.text = hasilFormatted
-                                Toast.makeText(this@CalculatorActivity, "History Saved!", Toast.LENGTH_SHORT).show()
+                                tvResultSM3.text = "$hasilFormatted M³"
+                                Toast.makeText(this@CalculatorActivity, "We did it mate", Toast.LENGTH_SHORT).show()
                             } else {
-                                val msg = if (jsonObject.has("message")) jsonObject.get("message").asString else "Gagal hitung"
+                                val msg = if (jsonObject.has("message")) jsonObject.get("message").asString else "Calculation Failed dawg :( Try again later"
                                 Toast.makeText(this@CalculatorActivity, msg, Toast.LENGTH_SHORT).show()
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            Toast.makeText(this@CalculatorActivity, "Error Data: ${e.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@CalculatorActivity, "Error parsing data", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

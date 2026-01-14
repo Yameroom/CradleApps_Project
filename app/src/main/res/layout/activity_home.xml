@@ -14,25 +14,21 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="260dp">
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/banner_craddle" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#4D000000" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="24dp"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="25dp">
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +50,6 @@
                         android:textColor="#FFFFFF"
                         android:fontFamily="@font/chirp_bold"/>
                 </LinearLayout>
-
                 <ImageButton
                     android:id="@+id/btnLogout"
                     android:layout_width="48dp"
@@ -69,12 +64,95 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_marginTop="-35dp"
             android:background="@drawable/bg_content_home"
             android:orientation="vertical"
             android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="Performance Overview"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:fontFamily="@font/chirp_bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#0066FF"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="22dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="22dp">
+                        <ImageView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            app:tint="#FFFFFF"
+                            android:alpha="0.9"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Average Revenue"
+                                android:textColor="#B3FFFFFF"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/chirp_regular"/>
+                            <TextView
+                                android:id="@+id/tvAvgRevenue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rp 0"
+                                android:textColor="#FFFFFF"
+                                android:textSize="26sp"
+                                android:fontFamily="@font/chirp_bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#33FFFFFF" android:layout_marginBottom="18dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical">
+                            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_compass" app:tint="#FFFFFF" android:alpha="0.8"/>
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10dp" android:orientation="vertical">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Avg Pressure" android:textColor="#B3FFFFFF" android:textSize="10sp" />
+                                <TextView android:id="@+id/tvAvgPressure" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 Bar" android:textColor="#FFFFFF" android:textSize="16sp" android:fontFamily="@font/chirp_bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center_vertical">
+                            <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@android:drawable/ic_menu_sort_alphabetically" app:tint="#FFFFFF" android:alpha="0.8"/>
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="10dp" android:orientation="vertical">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Avg Volume" android:textColor="#B3FFFFFF" android:textSize="10sp" />
+                                <TextView android:id="@+id/tvAvgSM3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 M³" android:textColor="#FFFFFF" android:textSize="16sp" android:fontFamily="@font/chirp_bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,26 +168,41 @@
                     app:cardBackgroundColor="#F1F8E9"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="2dp">
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:padding="16dp">
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total Data"
-                            android:textColor="#4CAF50"
-                            android:textSize="12sp" />
-                        <TextView
-                            android:id="@+id/tvTotalData"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="#4CAF50"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total Data"
+                                android:fontFamily="@font/chirp_bold"
+                                android:textColor="#4CAF50"
+                                android:textSize="11sp" />
+                            <TextView
+                                android:id="@+id/tvTotalData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="#4CAF50"
+                                android:textSize="22sp"
+                                android:fontFamily="@font/chirp_bold" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_save"
+                            android:alpha="0.2"
+                            app:tint="#4CAF50"/>
+                    </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -120,26 +213,41 @@
                     app:cardBackgroundColor="#E3F2FD"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="2dp">
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:padding="16dp">
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Today"
-                            android:textColor="#0066FF"
-                            android:textSize="12sp" />
-                        <TextView
-                            android:id="@+id/tvTodayData"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="+0"
-                            android:textColor="#0066FF"
-                            android:textSize="22sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Today"
+                                android:textColor="#0066FF"
+                                android:fontFamily="@font/chirp_bold"
+                                android:textSize="11sp" />
+                            <TextView
+                                android:id="@+id/tvTodayData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+0"
+                                android:textColor="#0066FF"
+                                android:textSize="22sp"
+                                android:fontFamily="@font/chirp_bold" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@android:drawable/ic_menu_recent_history"
+                            android:alpha="0.2"
+                            app:tint="#0066FF"/>
+                    </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
@@ -150,7 +258,7 @@
                 android:text="Main Menu"
                 android:textColor="#333333"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/chirp_bold" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardTransaksi"
@@ -180,19 +288,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Input Craddle"
-                            android:textColor="#000000"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Input data pengiriman baru"
-                            android:textColor="#777777"
-                            android:textSize="13sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Input Craddle" android:textColor="#000000" android:fontFamily="@font/chirp_bold" android:textSize="17sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Input data pengiriman baru" android:textColor="#777777" android:fontFamily="@font/chirp_regular" android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -225,19 +322,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Data List"
-                            android:textColor="#000000"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Manajemen riwayat pengiriman"
-                            android:textColor="#777777"
-                            android:textSize="13sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Data List" android:textColor="#000000" android:fontFamily="@font/chirp_bold" android:textSize="17sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Manajemen riwayat pengiriman" android:textColor="#777777" android:fontFamily="@font/chirp_regular" android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -262,7 +348,7 @@
                         android:layout_height="48dp"
                         android:background="@drawable/circle_bg_blue"
                         android:padding="11dp"
-                        android:src="@android:drawable/ic_btn_speak_now"
+                        android:src="@android:drawable/ic_menu_manage"
                         app:tint="#0066FF" />
                     <LinearLayout
                         android:layout_width="0dp"
@@ -270,32 +356,20 @@
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="AGA8 Calculator"
-                            android:textColor="#000000"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Simulasi perhitungan SM3 &amp; History"
-                            android:textColor="#777777"
-                            android:textSize="13sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AGA8 Calculator" android:textColor="#000000" android:fontFamily="@font/chirp_bold" android:textSize="17sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Simulasi perhitungan SM3 &amp; History" android:textColor="#777777" android:fontFamily="@font/chirp_regular" android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-        </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="App Version 1.0.0 • 2026"
-            android:textColor="#CCCCCC"
-            android:textSize="11sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="App Version 1.0.1 • 2026"
+                android:textColor="#CCCCCC"
+                android:fontFamily="@font/chirp_regular"
+                android:textSize="11sp" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
